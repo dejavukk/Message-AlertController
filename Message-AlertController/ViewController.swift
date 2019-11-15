@@ -18,6 +18,12 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        // 메시지 창을 처리하기 위한 적절한 위치
+        
+    }
+    
     
     @IBAction func alertButton(_ sender: UIButton) {
         
@@ -41,6 +47,39 @@ class ViewController: UIViewController {
         
         print("메시지 얼럿창 구현 성공.")
     }
+    
+    // 새로운 메소드 구현.
+    @IBAction func login(_ sender: UIButton) {
+        
+        let title = "iTunes Store에 로그인"
+        let message = "사용자의 Apple ID sqlpro@naver.com를 입력하세요."
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "cnlth", style: .cancel)
+        
+        let ok = UIAlertAction(title: "확인", style: .default) { (_) in
+            
+            // 확인 버튼을 탭했을 시 처리할 내용
+            
+            
+            
+            
+        }
+        
+        alert.addAction(cancel)
+        alert.addAction(ok)
+        
+        // 텍스트필드 추가
+        alert.addTextField(configurationHandler: { (tf) in
+            
+            tf.placeholder = "암호" // 안내 메시지
+            tf.isSecureTextEntry = true // 비밀번호 처리
+            
+        })
+        self.present(alert, animated: false)
+        
+    }
+    
     
 
 
