@@ -60,10 +60,11 @@ class ViewController: UIViewController {
         let ok = UIAlertAction(title: "확인", style: .default) { (_) in
             
             // 확인 버튼을 탭했을 시 처리할 내용
-            
-            
-            
-            
+            if let tf = alert.textFields?[0] {
+                print("입력된 값은 \(tf.text!)입니다.")
+            } else {
+                print("입력된 값이 없습니다.")
+            }
         }
         
         alert.addAction(cancel)
@@ -79,6 +80,19 @@ class ViewController: UIViewController {
         self.present(alert, animated: false)
         
     }
+    
+    @IBAction func auth(_ sender: UIButton) {
+        
+        // 메시지 창 관련 객체 정의
+        let msg = "로그인"
+        let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
+        let cancle = UIAlertAction(title: "취소", style: .default) { (_) in
+            // 확인 버튼을 탭 했을 때 실행할 내용
+        }
+        
+        // 정의 액션 버튼 객체를 메시지 창에 추가.
+    }
+    
     
     
 
