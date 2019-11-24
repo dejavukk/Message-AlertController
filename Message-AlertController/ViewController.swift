@@ -89,12 +89,41 @@ class ViewController: UIViewController {
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         let ok = UIAlertAction(title: "확인", style: .default) { (_) in
             // 확인 버튼을 탭 했을 때 실행할 내용
+            
+            let loginId = alert.textFields?[0].text
+            let loginPw = alert.textFields?[1].text
+            
+            if loginId == "sqlpro" && loginPw == "1234" {
+                self.result.text = "인증되었습니다."
+                
+            } else {
+                self.result.text = "인증에 실패하였습니다."
+            }
+            
+            
         }
         
         // 정의 액션 버튼 객체를 메시지 창에 추가.
         alert.addAction(cancel)
         alert.addAction(ok)
+        
+        // 아이디 필드 추가
+        alert.addTextField(configurationHandler: { (tf) in
+            
+            tf.placeholder = "아이디" // 미리 보여줄 안내 메시지
+            tf.isSecureTextEntry = false // 입력시 *로 처리 안함
+        })
+        
+        alert.addTextField(configurationHandler:  { (tf) in
+            
+            tf.placeholder = "비밀번호" // 미리 보여줄 안내 메시지
+            tf.isSecureTextEntry = true // 입력시 *로 처리함
+        })
+        
+        self.present(alert, animated: false)
     }
+    
+    
     
     
     
