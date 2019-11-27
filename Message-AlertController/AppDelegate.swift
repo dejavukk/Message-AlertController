@@ -10,7 +10,8 @@ import UIKit
 import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+// UNUserNotificationCenterDelegate 패턴 추가, "알림센터와 관련하여 사건이 발생하면 AppDelegate한테 통보."
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     // 앱 처음 실행될 때 호출되는 메소드.
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -21,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // 경고창, 배지, 사운드를 사용하는 알림 환경 정보를 생성하고, 사용자 동의 여부 차을 실행
             let notiCenter = UNUserNotificationCenter.current()
             notiCenter.requestAuthorization(options: [.alert, .badge, .sound]) { (didAllow, e) in }
+            
+            // 알림 메시지를 클릭하는 이벤트를 전달받을 수 있다.
+            notiCenter.delegate = self
         } else {
             
             // 경고창, 배지, 사운드를 사용하는 알림 환경 정보를 생성하고, 이를 애플리케이션에 저장.
@@ -63,6 +67,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {    // UILocationNotification 객체를 이용한 로컬 알림 (iOS 9 이하)
             
         }
+    }
+    
+    // 앱 실행 도중에 알림 메시지가 도착한 경우
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        if notification.request.identifier == "wakeup" {
+            let userInfo = notification.request.content.userInfo
+            print(userInfo["name"]!)
+        }
+        
+        completionHandler([.alert, .badge, .sound])
     }
 
     // MARK: UISceneSession Lifecycle

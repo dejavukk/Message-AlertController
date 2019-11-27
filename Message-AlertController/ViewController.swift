@@ -55,7 +55,7 @@ class ViewController: UIViewController {
         let message = "사용자의 Apple ID sqlpro@naver.com를 입력하세요."
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "cnlth", style: .cancel)
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
         
         let ok = UIAlertAction(title: "확인", style: .default) { (_) in
             
