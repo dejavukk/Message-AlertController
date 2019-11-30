@@ -14,10 +14,10 @@ import UserNotifications
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     // 앱 처음 실행될 때 호출되는 메소드.
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         // Override point for customization after application launch.
         
-        if #available(iOS 11.0, *) {
+        if #available(iOS 10.0, *) {
             
             // 경고창, 배지, 사운드를 사용하는 알림 환경 정보를 생성하고, 사용자 동의 여부 차을 실행
             let notiCenter = UNUserNotificationCenter.current()
@@ -60,6 +60,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     // 노티피케이션 센터에 추가
                     UNUserNotificationCenter.current().add(request)
                 } else {
+                    
+                    // 알림 설정 확인
+                    let setting = application.currentUserNotificationSettings
+                    // 알림 설정이 되어 있지 않다면 로컬 알림을 보내도 받을 수 없으므로 종료
+                    guard setting?.types != .none else {
+                        print("Can't Schedule")
+                        return
+                    }
+                    
+                    // 로컬 알림 인스턴스 생성
+                    let noti = UILocalNotification()
+                    noti.fireDate = Date(timeIntervalSinceNow: 10)  // 10초 후 발송
+                    noti.timeZone = TimeZone.autoupdatingCurrent    // 현재 위치에 따라 타임존 설정
+                    noti.alertBody = "다시 접속하세요."    // 표시될 메시지
+                    noti.alertAction = "학습하기"       // 잠금 상태일 때 표시될 액션
+                    noti.applicationIconBadgeNumber = 1     // 앱 아이콘 모서리에 표시될 뱃지
+                    noti.soundName = UILocalNotificationDefaultSoundName    // 로컬 알림시 사운드
+                    noti.userInfo = ["name": "홍길동"]
+                    
+                    // 생성된 알람 객체를 스케줄러에 등록.
+                    application.scheduleLocalNotification(noti)
                     
                     print("사용자가 동의하지 않음!")
                 }
